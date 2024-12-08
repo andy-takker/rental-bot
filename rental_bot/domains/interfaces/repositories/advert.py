@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from collections.abc import Sequence
+from collections.abc import Iterable, Sequence, Set
 from typing import Protocol
 
 from rental_bot.domains.entities.bpru import Advert, ParsedAdvert
@@ -7,7 +7,7 @@ from rental_bot.domains.entities.bpru import Advert, ParsedAdvert
 
 class IAdvertRepository(Protocol):
     @abstractmethod
-    async def find_new(self, external_ids: Sequence[str], source: str) -> Sequence[str]:
+    async def find_new(self, external_ids: Iterable[str], source: str) -> Set[str]:
         raise NotImplementedError
 
     @abstractmethod

@@ -1,4 +1,4 @@
-from collections.abc import Sequence
+from collections.abc import Iterable, Sequence, Set
 
 from sqlalchemy import insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -12,14 +12,14 @@ class AdvertRepository(IAdvertRepository):
     def __init__(self, session: AsyncSession) -> None:
         self.__session = session
 
-    async def find_new(self, external_ids: Sequence[str], source: str) -> Sequence[str]:
+    async def find_new(self, external_ids: Iterable[str], source: str) -> Set[str]:
         stmt = (
             select(AdvertTable.external_id)
             .where(AdvertTable.source == source)
             .where(AdvertTable.external_id.in_(external_ids))
         )
         saved_ids = await self.__session.scalars(stmt)
-        return list(set(external_ids) - set(saved_ids))
+        return set(external_ids) - set(saved_ids)
 
     async def save_many(self, adverts: Sequence[ParsedAdvert]) -> Sequence[Advert]:
         if not adverts:

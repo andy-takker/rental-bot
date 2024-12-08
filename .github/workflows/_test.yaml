@@ -37,4 +37,4 @@ jobs:
       - name: Run tests
         run: make test-ci
         env:
-          APP_DB_DSN: postgresql+asyncpg://testuser:testpass@db:5432/testdb
+          APP_DATABASE_DSN: postgresql+asyncpg://testuser:testpass@db:5432/testdb

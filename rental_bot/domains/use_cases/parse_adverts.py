@@ -27,7 +27,7 @@ class ParseAdvertsUseCase(IUseCase[None, None]):
             return
         async with self.uow:
             new_advert_ids = await self.repository.find_new(
-                external_ids=[advert.external_id for advert in adverts], source=source
+                external_ids={advert.external_id for advert in adverts}, source=source
             )
             log.info("Found %d new adverts", len(new_advert_ids))
             new_adverts = [
